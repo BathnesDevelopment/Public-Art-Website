@@ -6,4 +6,9 @@ $(function () {
 
     $('tblCatalogue').dataTable();
 
+
+    PublicArt.getFiltered(function (data) {
+
+    });
+
 });
