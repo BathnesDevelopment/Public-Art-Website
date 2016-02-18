@@ -12,14 +12,12 @@ var PublicArt = {
     /////////////////////////////////////////////////////
     // Function: getFiltered
     // Input: callback
-    // Return: JSON data in a format easy for DataTables.
+    // Return: the default JSON returned by the datastore
     /////////////////////////////////////////////////////
     getFiltered: function (callback) {
         // Get the data from the datastore
-        $.get(dataStoreUrl + listFilter, function (data) {
+        $.get(this.datastoreUrl + '?' + this.listFilter, function (data) {
             // Get the data into a format
-
-
             callback(data);
         });
     },
