@@ -4,17 +4,16 @@
 ////////////////////////////////////////////////////////////
 $(function () {
 
-    // On initial load get the filtered list and initialise the table.
+    ///////////////////////////////////////////////////////////
+    // Load: GetFilteredData
+    // On loading the page
+    ///////////////////////////////////////////////////////////
     PublicArt.getFiltered(function (data) {
-        console.log(data);
-
         // Get the data into a format suitable for DataTables.
         var dataSet = [];
+        var uniqueCategories = {};
         $.each(data, function (key, value) {
-
-
             var altText = '';
-
             var imgUrl = 'http://www.bathnes.gov.uk/sites/default/files/publicart/thumbnails/' + value.reference + '-a.jpg';
 
             var categoryHtml = '';
@@ -22,7 +21,9 @@ $(function () {
             if (value.categories) {
                 var categories = value.categories.split('|');
                 $.each(categories, function (idx, cat) {
-                    categoryHtml += '<span class="label label-default">' + cat + '</span> ';
+                    categoryHtml += '<span class="label label-primary">' + cat + '</span> ';
+                    if (!uniqueCategories[cat]) uniqueCategories[cat] = 0;
+                    uniqueCategories[cat]++;
                 });
                 categoryArray = value.categories.split('|').join('","');
             }
@@ -36,40 +37,40 @@ $(function () {
                 if (value.artist5_name) artistHtml += ', ' + value.artist5_name;
                 if (value.artist6_name) artistHtml += ', ' + value.artist6_name;
             }
-
-            $('#grid').append('<div class="grid__brick col-lg-3 col-md-4 col-xs-6" data-groups=&apos;[' + categoryArray + ']&apos; data-title="' + value.title + '" data-date="' + value.date + '"><div class="thumbnail"><img class="img-responsive" src="' + imgUrl + '" alt="' + altText + '"><div class="wrapper"><div class="caption post-content"><p class="lead">' + value.title + '</p>' + categoryHtml + '</div></div></div></div>');
+            $('#grid').append('<div class="grid__brick col-lg-3 col-md-4 col-xs-6" data-groups=["' + categoryArray + '"] data-title="' + value.title + '" data-date="' + value.date + '"><div class="thumbnail"><img class="img-responsive" src="' + imgUrl + '" alt="' + altText + '"><div class="wrapper"><div class="caption post-content"><p class="lead">' + value.title + '</p>' + categoryHtml + '</div></div></div></div>');
         });
+        data = null;
 
         $('#grid').append('<div class="col-xs-1 shuffle__sizer"></div>');
+        $.each(uniqueCategories, function (i, v) {
+            $('#btnsCategory').append('<li data-group="' + i + '"><a>' + i + ' <span class="badge">' + v + '</span></a></li>');
+        });
 
         // Set up Shuffle on the grid bricks.
         var grid = $('#grid')
         var sizer = grid.find('.shuffle__sizer');
         grid.shuffle({ itemSelector: '.grid__brick', sizer: sizer });
 
-        // Sorting options
+        ///////////////////////////////////////////////////////////
+        // Event: Sort
+        // On changing the sort dropdown it triggers the shuffle
+        // with the sort option set to the relevant data-*
+        ///////////////////////////////////////////////////////////
         $('.sort-options').on('change', function () {
-            var sort = this.value,
-                opts = {};
-            // We're given the element wrapped in jQuery
-            if (sort === 'date') {
-                opts = {
-                    reverse: true,
-                    by: function (el) {
-                        return el.data('date');
-                    }
-                };
-            } else if (sort === 'title') {
-                opts = {
-                    by: function (el) {
-                        return el.data('title').toLowerCase();
-                    }
-                };
-            }
-            grid.shuffle('sort', opts);
+            grid.shuffle('sort', {
+                reverse: true,
+                by: function (el) {
+                    return el.data(this.value);
+                }
+            });
         });
 
-        // Search
+        ///////////////////////////////////////////////////////////
+        // Event: Search
+        // On a keychange in the search box it will
+        // trigger the JS shuffle of the collection and look
+        // for matches in the item title.
+        ///////////////////////////////////////////////////////////
         $('.js-shuffle-search').on('keyup change', function () {
             var val = this.value.toLowerCase();
             grid.shuffle('shuffle', function (el, shuffle) {
@@ -82,11 +83,14 @@ $(function () {
             });
         });
 
-        // Filter
-        $('.btn-filter').on('click', function () {
+        ///////////////////////////////////////////////////////////
+        // Event: Filter items
+        // On clicking the 
+        ///////////////////////////////////////////////////////////
+        $('#btnsCategory li').on('click', function () {
             var isActive = $(this).hasClass('active');
             var group = isActive ? 'all' : $(this).data('group');
-            if (!isActive) $('.filter-options .active').removeClass('active');
+            $('#btnsCategory li').removeClass('active');
             $(this).toggleClass('active');
             grid.shuffle('shuffle', group);
         });

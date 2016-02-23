@@ -1,0 +1,36 @@
+.logo {
+    height: 50px;
+    margin: 10px;
+}
+
+@media (max-width: 767px) {
+    .grid__brick:nth-child(n+3) {
+        margin-top: 15px;
+    }
+
+    .shuffle--fluid .shuffle__sizer {
+        padding: 0;
+    }
+}
+
+.post-content {
+    background: none repeat scroll 0 0 #FFFFFF;
+    opacity: 0.9;
+    top: 0;
+    left: 0;
+    position: absolute;
+    width: 100%;
+}
+    .post-content .label {
+        opacity: 1;
+    }
+
+
+.thumbnail {
+    position: relative;
+    overflow: auto;
+}
+    .thumbnail img {
+        width: 100%;
+        min-height: 250px;
+    }

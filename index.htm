@@ -12,43 +12,7 @@
     <![endif]-->
     <title>Public Art Catalogue | Bath and North East Somerset Council</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/public.css" rel="stylesheet">
-
-    <style>
-        .grid__brick .grid__brick-inner {
-            /*background-color: #F0F0F0;
-            border: 1px solid rgba(0, 0, 0, 0.3);*/
-        }
-        .grid__brick:nth-child(n+4) {
-            /*margin-top: 15px;*/
-        }
-        @media (max-width: 767px) {
-            .grid__brick:nth-child(n+3) {
-                margin-top: 15px;
-            }
-            .shuffle--fluid .shuffle__sizer {
-                padding: 0;
-            }
-        }
-
-        .post-content {
-            background: none repeat scroll 0 0 #FFFFFF;
-            opacity: 0.9;
-            top: 0;
-            left: 0;
-            position: absolute;
-            width: 100%;
-        }
-
-        .thumbnail {
-            position: relative;
-            overflow: auto;
-        }
-            .thumbnail img {
-                width: 100%;
-                min-height: 250px;
-            }
-    </style>
+    <link href="css/site.css" rel="stylesheet">
 </head>
 <body>
     <div class="container">
@@ -73,14 +37,6 @@
                     <li><a href="/" title="Feedback">Feedback</a></li>
                     <li><a href="/" title="What's on">What's on</a></li>
                 </ul>
-                <form action="http://www.bathnes.gov.uk" method="post" class="navbar-form navbar-right" role="search">
-                    <div class="form-group">
-                        <input name="search_block_form" class="form-control" type="search" placeholder="Search">
-                    </div>
-                    <input name="form_build_id" type="hidden" value="form-B0cA3W1K15t1nTu55VGLGxKmohTwqwCmTeEmcBWGd48">
-                    <input name="form_id" type="hidden" value="search_block_form">
-                    <button class="btn btn-default" type="submit">Search</button>
-                </form>
                 <ul class="nav navbar-nav navbar-right"></ul>
             </div>
         </div>
@@ -94,14 +50,17 @@
     <div class="container">
         <form class="form-horizontal">
             <fieldset>
-                <legend>Sort and filter</legend>
+                <legend>Choose items to display</legend>
+                <div class="form-group">
+                    <ul id="btnsCategory" class="nav nav-pills"></ul>
+                </div>
                 <div class="form-group">
                     <label class="col-lg-2 control-label" for="txtSearch">Search</label>
                     <div class="col-lg-10">
                         <input class="form-control filter__search js-shuffle-search" id="txtSearch" type="text" placeholder="Search">
                     </div>
                 </div>
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="col-lg-2 control-label" for="select">Order items</label>
                     <div class="col-lg-10">
                         <select class="sort-options form-control">
@@ -110,16 +69,7 @@
                             <option value="date">Date</option>
                         </select>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-lg-2 control-label" for="select">Type</label>
-                    <div class="col-lg-10">
-                        <div class="btn-group">
-                            <a class="btn btn-default btn-filter">Decorative</a>
-                            <a class="btn btn-default btn-filter">Paving</a>
-                        </div>
-                    </div>
-                </div>
+                </div>-->
             </fieldset>
         </form>
     </div>
