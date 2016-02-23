@@ -15,44 +15,38 @@
     <link href="css/public.css" rel="stylesheet">
 
     <style>
-        .table-center-wrap {
-            width: 100%;
-            height: 100%;
-            text-align: center;
-        }
-
-        .demo-description {
-            margin-bottom: 20px;
-        }
-
         .grid__brick .grid__brick-inner {
-            background-color: #F0F0F0;
-            height: 100px;
-            border: 1px solid rgba(0, 0, 0, 0.3);
+            /*background-color: #F0F0F0;
+            border: 1px solid rgba(0, 0, 0, 0.3);*/
         }
-
         .grid__brick:nth-child(n+4) {
-            margin-top: 15px;
+            /*margin-top: 15px;*/
         }
-
         @media (max-width: 767px) {
             .grid__brick:nth-child(n+3) {
                 margin-top: 15px;
             }
-
-            /* Padding on the grid column is keep it from getting smaller than 30px */
             .shuffle--fluid .shuffle__sizer {
                 padding: 0;
             }
         }
 
-        .aside {
-            height: 200px;
-            background-color: #E0E0E0;
+        .post-content {
+            background: none repeat scroll 0 0 #FFFFFF;
+            opacity: 0.9;
+            top: 0;
+            left: 0;
+            position: absolute;
+            width: 100%;
         }
 
-            .aside + .aside {
-                margin-top: 10px;
+        .thumbnail {
+            position: relative;
+            overflow: auto;
+        }
+            .thumbnail img {
+                width: 100%;
+                min-height: 250px;
             }
     </style>
 </head>
@@ -98,27 +92,40 @@
         </div>
     </div>
     <div class="container">
-        <button class="btn btn--go" data-filter-value="green"><span class="visuallyhidden">Green</span></button>
-        <select class="sort-options">
-            <option value="">Default</option>
-            <option value="title">Title</option>
-            <option value="date">Date</option>
-        </select>
-    </div>
-    <br/>
-    <div class="container">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="row">
-                        <div id="grid" class="shuffle--container shuffle--fluid">
-                            <div class="grid__brick col-xs-6 col-sm-4" data-title="This is a title 1" data-date="2014"><a class="thumbnail" href="#"><img class="img-responsive" src="http://placehold.it/400x300" alt=""></a></div>
-                            <div class="col-xs-1 shuffle__sizer"></div>
+        <form class="form-horizontal">
+            <fieldset>
+                <legend>Sort and filter</legend>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="txtSearch">Search</label>
+                    <div class="col-lg-10">
+                        <input class="form-control filter__search js-shuffle-search" id="txtSearch" type="text" placeholder="Search">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="select">Order items</label>
+                    <div class="col-lg-10">
+                        <select class="sort-options form-control">
+                            <option value=""></option>
+                            <option value="title">Title</option>
+                            <option value="date">Date</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label" for="select">Type</label>
+                    <div class="col-lg-10">
+                        <div class="btn-group">
+                            <a class="btn btn-default btn-filter">Decorative</a>
+                            <a class="btn btn-default btn-filter">Paving</a>
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </fieldset>
+        </form>
+    </div>
+    <br />
+    <div class="container">
+        <div id="grid" class="row shuffle--container shuffle--fluid"></div>
     </div>
     <div class="container">
         <footer>
