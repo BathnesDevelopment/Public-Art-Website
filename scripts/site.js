@@ -9,19 +9,16 @@ $(function () {
     // On loading the page
     ///////////////////////////////////////////////////////////
     PublicArt.getFiltered(function (data) {
-        // Get the data into a format suitable for DataTables.
-        var dataSet = [];
+
         var uniqueCategories = {};
         $.each(data, function (key, value) {
             var imgAlt = 'Art catalogue image reference ' + value.reference;
             var imgUrl = 'http://www.bathnes.gov.uk/sites/default/files/publicart/thumbnails/' + value.reference + '-a.jpg';
 
-            var categoryHtml = '';
             var categoryArray = '';
             if (value.categories) {
                 var categories = value.categories.split('|');
                 $.each(categories, function (idx, cat) {
-                    categoryHtml += '<span class="label label-primary">' + cat + '</span> ';
                     if (!uniqueCategories[cat]) uniqueCategories[cat] = 0;
                     uniqueCategories[cat]++;
                 });
@@ -37,21 +34,20 @@ $(function () {
                 if (value.artist5_name) artistHtml += ', ' + value.artist5_name;
                 if (value.artist6_name) artistHtml += ', ' + value.artist6_name;
             }
-            $('#grid').append('<div class="grid__brick col-lg-3 col-md-4 col-xs-6" data-groups=["' + categoryArray.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '"><div class="thumbnail"><img class="img-responsive" src="' + imgUrl + '" alt="' + imgAlt + '"><div class="wrapper"><div class="caption post-content"><p class="lead">' + value.title + '</p>' + categoryHtml + '</div></div></div></div>');
+            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + categoryArray.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '"><div class="thumbnail"><img class="img-responsive" src="' + imgUrl + '" alt="' + imgAlt + '"><div class="wrapper"><div class="caption capcontent"><p class="lead">' + value.title.substring(0, 50) + '</p></div></div></div></div>');
         });
         data = null;
-
-        $('#grid').append('<div class="col-xs-1 shuffle__sizer"></div>');
+        $('#grid').append('<div class="col-xs-1 shufflesizer"></div>');
 
         // Set up the filter from the set of unique categories (and associated counts for labels).
         $.each(uniqueCategories, function (catName, catCount) {
-            $('#btnsCategory').append('<li data-group="' + catName.replace(/ /g, '') + '"><a>' + catName + ' <span class="badge">' + catCount + '</span></a></li>');
+            $('#btnsCategory').append('<li data-group="' + catName.replace(/ /g, '') + '"><a href="#' + catName.replace(/ /g, '') + '">' + catName + ' <span class="badge">' + catCount + '</span></a></li>');
         });
 
         // Set up the initial shuffle on the grid bricks.
         var grid = $('#grid')
-        var sizer = grid.find('.shuffle__sizer');
-        grid.shuffle({ itemSelector: '.grid__brick', sizer: sizer });
+        var sizer = grid.find('.shufflesizer');
+        grid.shuffle({ itemSelector: '.griditem', sizer: sizer });
 
         ///////////////////////////////////////////////////////////
         // Event: Sort
@@ -77,9 +73,7 @@ $(function () {
             var val = this.value.toLowerCase();
             grid.shuffle('shuffle', function (el, shuffle) {
                 // Only search elements in the current group
-                if (shuffle.group !== 'all' && $.inArray(shuffle.group, el.data('groups')) === -1) {
-                    return false;
-                }
+                if (shuffle.group !== 'all' && $.inArray(shuffle.group, el.data('groups')) === -1) return false;
                 var text = $.trim(el.find('.lead').text()).toLowerCase();
                 return text.indexOf(val) !== -1;
             });
@@ -89,9 +83,9 @@ $(function () {
         // Event: Filter items
         // On clicking the 
         ///////////////////////////////////////////////////////////
-        $('#btnsCategory li').on('click', function () {
-            var isActive = $(this).hasClass('active');
-            var group = isActive ? 'all' : $(this).data('group');
+        $('#btnsCategory li').on('click', function (e) {
+            e.preventDefault();
+            var group = $(this).hasClass('active') ? 'all' : $(this).data('group');
             $('#btnsCategory li').not(this).removeClass('active');
             $(this).toggleClass('active');
             grid.shuffle('shuffle', group);

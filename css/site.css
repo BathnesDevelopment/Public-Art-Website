@@ -4,16 +4,16 @@
 }
 
 @media (max-width: 767px) {
-    .grid__brick:nth-child(n+3) {
+    .griditem:nth-child(n+3) {
         margin-top: 15px;
     }
 
-    .shuffle--fluid .shuffle__sizer {
+    .shuffle--fluid .shufflesizer {
         padding: 0;
     }
 }
 
-.post-content {
+.capcontent {
     background: none repeat scroll 0 0 #FFFFFF;
     opacity: 0.9;
     top: 0;
@@ -21,7 +21,7 @@
     position: absolute;
     width: 100%;
 }
-    .post-content .label {
+    .capcontent .label {
         opacity: 1;
     }
 

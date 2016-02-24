@@ -15,9 +15,7 @@ var PublicArt = {
     // Return: the default JSON returned by the datastore
     /////////////////////////////////////////////////////
     getFiltered: function (callback) {
-        // Get the data from the datastore
         $.get(this.datastoreUrl + '?' + this.listFilter, function (data) {
-            // Get the data into a format
             callback(data);
         });
     },
@@ -28,7 +26,9 @@ var PublicArt = {
     // Return: the default JSON returned by the datastore
     /////////////////////////////////////////////////////
     getAll: function (callback) {
-
+        $.get(this.datastoreUrl, function (data) {
+            callback(data);
+        });
     },
 
     /////////////////////////////////////////////////////
@@ -37,7 +37,8 @@ var PublicArt = {
     // Return: the default JSON returned by the datastore
     /////////////////////////////////////////////////////
     getItem: function (id, callback) {
-
-
+        $.get(this.datastoreUrl + '?$where' + id, function (data) {
+            callback(data);
+        });
     }
 }
