@@ -13,7 +13,7 @@ $(function () {
         var dataSet = [];
         var uniqueCategories = {};
         $.each(data, function (key, value) {
-            var altText = '';
+            var imgAlt = 'Art catalogue image reference ' + value.reference;
             var imgUrl = 'http://www.bathnes.gov.uk/sites/default/files/publicart/thumbnails/' + value.reference + '-a.jpg';
 
             var categoryHtml = '';
@@ -37,16 +37,18 @@ $(function () {
                 if (value.artist5_name) artistHtml += ', ' + value.artist5_name;
                 if (value.artist6_name) artistHtml += ', ' + value.artist6_name;
             }
-            $('#grid').append('<div class="grid__brick col-lg-3 col-md-4 col-xs-6" data-groups=["' + categoryArray + '"] data-title="' + value.title + '" data-date="' + value.date + '"><div class="thumbnail"><img class="img-responsive" src="' + imgUrl + '" alt="' + altText + '"><div class="wrapper"><div class="caption post-content"><p class="lead">' + value.title + '</p>' + categoryHtml + '</div></div></div></div>');
+            $('#grid').append('<div class="grid__brick col-lg-3 col-md-4 col-xs-6" data-groups=["' + categoryArray.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '"><div class="thumbnail"><img class="img-responsive" src="' + imgUrl + '" alt="' + imgAlt + '"><div class="wrapper"><div class="caption post-content"><p class="lead">' + value.title + '</p>' + categoryHtml + '</div></div></div></div>');
         });
         data = null;
 
         $('#grid').append('<div class="col-xs-1 shuffle__sizer"></div>');
-        $.each(uniqueCategories, function (i, v) {
-            $('#btnsCategory').append('<li data-group="' + i + '"><a>' + i + ' <span class="badge">' + v + '</span></a></li>');
+
+        // Set up the filter from the set of unique categories (and associated counts for labels).
+        $.each(uniqueCategories, function (catName, catCount) {
+            $('#btnsCategory').append('<li data-group="' + catName.replace(/ /g, '') + '"><a>' + catName + ' <span class="badge">' + catCount + '</span></a></li>');
         });
 
-        // Set up Shuffle on the grid bricks.
+        // Set up the initial shuffle on the grid bricks.
         var grid = $('#grid')
         var sizer = grid.find('.shuffle__sizer');
         grid.shuffle({ itemSelector: '.grid__brick', sizer: sizer });
@@ -90,7 +92,7 @@ $(function () {
         $('#btnsCategory li').on('click', function () {
             var isActive = $(this).hasClass('active');
             var group = isActive ? 'all' : $(this).data('group');
-            $('#btnsCategory li').removeClass('active');
+            $('#btnsCategory li').not(this).removeClass('active');
             $(this).toggleClass('active');
             grid.shuffle('shuffle', group);
         });
