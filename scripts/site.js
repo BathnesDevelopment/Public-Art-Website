@@ -34,7 +34,7 @@ $(function () {
                 if (value.artist5_name) artistHtml += ', ' + value.artist5_name;
                 if (value.artist6_name) artistHtml += ', ' + value.artist6_name;
             }
-            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + categoryArray.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '"><div class="thumbnail"><img class="img-responsive" src="' + imgUrl + '" alt="' + imgAlt + '"><div class="wrapper"><div class="caption capcontent"><p class="lead">' + value.title.substring(0, 50) + '</p></div></div></div></div>');
+            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + categoryArray.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '"><a class="thumbnail" href="#' + value.reference + '" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails"><img class="img-responsive" src="' + imgUrl + '" alt="' + imgAlt + '"><div class="wrapper"><div class="caption capcontent"><p class="lead">' + value.title.substring(0, 50) + '</p></div></div></a></div>');
         });
         data = null;
         $('#grid').append('<div class="col-xs-1 shufflesizer"></div>');
@@ -48,6 +48,18 @@ $(function () {
         var grid = $('#grid')
         var sizer = grid.find('.shufflesizer');
         grid.shuffle({ itemSelector: '.griditem', sizer: sizer });
+
+        ///////////////////////////////////////////////////////////
+        // Event: ClickItem
+        // On clicking the item it should launch the item modal
+        // and call the datastore to get the item details.
+        ///////////////////////////////////////////////////////////
+        $('#itemDetails').on('shown.bs.modal', function (e) {
+            PublicArt.getItem($(e.relatedTarget).data('id'), function (data) {
+                $('.modal-title').text(data[0].title);
+                $('#pDescription').text(data[0].description);
+            });
+        });
 
         ///////////////////////////////////////////////////////////
         // Event: Sort
