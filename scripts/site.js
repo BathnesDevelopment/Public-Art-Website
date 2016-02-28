@@ -1,4 +1,4 @@
-﻿////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////
 // Site.js: Handles general page loading and functionality
 // Created: 17th Feb 2016.
 ////////////////////////////////////////////////////////////
@@ -50,14 +50,23 @@ $(function () {
         grid.shuffle({ itemSelector: '.griditem', sizer: sizer });
 
         ///////////////////////////////////////////////////////////
-        // Event: ClickItem
+        // Event: Show modal.
         // On clicking the item it should launch the item modal
-        // and call the datastore to get the item details.
+        // and call the datastore to get the item detail.
         ///////////////////////////////////////////////////////////
-        $('#itemDetails').on('shown.bs.modal', function (e) {
+        $('#itemDetails').on('show.bs.modal', function (e) {
+
+            // Clear the existing modal
+            $('.modal-title').not('.modal-loading').text('');
+            $('#pDescription').text('');
+          
+            // Show the loader
+            $('.modal-loading').show();
+
             PublicArt.getItem($(e.relatedTarget).data('id'), function (data) {
-                $('.modal-title').text(data[0].title);
-                $('#pDescription').text(data[0].description);
+                $('.modal-title').not('.modal-loading').text(data[0].title);
+                $('#pDescription').html(data[0].description);
+                $('.modal-loading').hide();
             });
         });
 
