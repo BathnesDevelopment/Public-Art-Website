@@ -8,35 +8,36 @@ $(function () {
     // Load: GetFilteredData
     // On loading the page
     ///////////////////////////////////////////////////////////
-    PublicArt.getFiltered(function (data) {
+    PublicArt.getFiltered(function () {
 
         var uniqueCategories = {};
-        $.each(data, function (key, value) {
-            var imgAlt = 'Art catalogue image reference ' + value.reference;
-            var imgUrl = 'http://www.bathnes.gov.uk/sites/default/files/publicart/thumbnails/' + value.reference + '-a.jpg';
-
-            var categoryArray = '';
+        $.each(PublicArt.dataset, function (key, value) {
+            var catList = '';
             if (value.categories) {
-                var categories = value.categories.split('|');
-                $.each(categories, function (idx, cat) {
+                $.each(value.categories, function (idx, cat) {
                     if (!uniqueCategories[cat]) uniqueCategories[cat] = 0;
                     uniqueCategories[cat]++;
                 });
-                categoryArray = value.categories.split('|').join('","');
+                catList = value.categories.join('","');
             }
 
-            var artistHtml = '';
-            if (value.artist1_name) {
-                artistHtml += value.artist1_name;
-                if (value.artist2_name) artistHtml += ', ' + value.artist2_name;
-                if (value.artist3_name) artistHtml += ', ' + value.artist3_name;
-                if (value.artist4_name) artistHtml += ', ' + value.artist4_name;
-                if (value.artist5_name) artistHtml += ', ' + value.artist5_name;
-                if (value.artist6_name) artistHtml += ', ' + value.artist6_name;
-            }
-            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + categoryArray.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '"><a class="thumbnail" href="#' + value.reference + '" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails"><img class="img-responsive" src="' + imgUrl + '" alt="' + imgAlt + '"><div class="wrapper"><div class="caption capcontent"><p class="lead">' + value.title.substring(0, 50) + '</p></div></div></a></div>');
+            // Ugly - build up the item container.
+            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["'
+                + catList.replace(/ /g, '')
+                + '"] data-title="'
+                + value.title
+                + '" data-date="'
+                + value.date
+                + '"><a class="thumbnail" href="#'
+                + value.reference
+                + '" data-id="'
+                + value.reference
+                + '" data-toggle="modal" data-target="#itemDetails">'
+                + (value.images.length > 0 ? ('<img class="img-responsive" src="' + PublicArt.imageThumbsLocation + value.images[0].filename + '" alt="' + 'Art catalogue image reference ' + value.reference + '" />') : '')
+                + '<div class="wrapper"><div class="caption capcontent"><p class="lead">'
+                + (value.title.length > 50 ? value.title.substring(0, 50) + '&hellip;' : value.title)
+                + '</p></div></div></a></div>');
         });
-        data = null;
         $('#grid').append('<div class="col-xs-1 shufflesizer"></div>');
 
         // Set up the filter from the set of unique categories (and associated counts for labels).
@@ -45,9 +46,13 @@ $(function () {
         });
 
         // Set up the initial shuffle on the grid bricks.
-        var grid = $('#grid')
+        var grid = $('#grid');
         var sizer = grid.find('.shufflesizer');
-        grid.shuffle({ itemSelector: '.griditem', sizer: sizer });
+
+        // Set a delay on the shuffle
+        setTimeout(function () {
+            grid.shuffle({ itemSelector: '.griditem', sizer: sizer });
+        }, 500);
 
         ///////////////////////////////////////////////////////////
         // Event: Show modal.
@@ -59,13 +64,14 @@ $(function () {
             // Clear the existing modal
             $('.modal-title').not('.modal-loading').text('');
             $('#pDescription').text('');
-          
+
             // Show the loader
             $('.modal-loading').show();
 
-            PublicArt.getItem($(e.relatedTarget).data('id'), function (data) {
-                $('.modal-title').not('.modal-loading').text(data[0].title);
-                $('#pDescription').html(data[0].description);
+            var id = $(e.relatedTarget).data('id');
+            PublicArt.getItem(id, function () {
+                $('.modal-title').not('.modal-loading').text(PublicArt.dataset[id].title);
+                $('#pDescription').html(PublicArt.dataset[id].description);
                 $('.modal-loading').hide();
             });
         });
