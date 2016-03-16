@@ -27,7 +27,7 @@ var PublicArt = {
 
                 // Build up the artists collection
                 row.artists = [];
-                for (var x = 1; x <= 6 ; x++) if (row['artist' + x + '_name']) row.artists.push({ name: row['artist' + x + '_name'] });
+                for (var x = 1; x <= 6 ; x++) if (row['artist' + x + '_name'] != 'NULL') row.artists.push({ name: row['artist' + x + '_name'] });
 
                 var alphabet = 'abcdefghi';
                 // Build up the images.
@@ -38,7 +38,7 @@ var PublicArt = {
                     });
                 }
 
-                if (row.categories) row.categories = row.categories.split('|');
+                if (row.categories) row.categories = row.categories.replace('NULL', 'Uncategorised').split('|');
                 this.dataset[row.reference] = row;
             }.bind(this));
             callback();
@@ -73,6 +73,32 @@ var PublicArt = {
         } else {
             $.get(this.datastoreUrl + '?reference=' + id + '&' + this.detailsFiler, function (data) {
                 this.dataset[id].description = data[0].description;
+                this.dataset[id].unveilingyear = data[0].unveilingyear;
+                this.dataset[id].unveilingdetails = data[0].unveilingdetails;
+                this.dataset[id].statement = data[0].statement;
+                this.dataset[id].material = data[0].material;
+                this.dataset[id].inscription = data[0].inscription;
+                this.dataset[id].history = data[0].history;
+                this.dataset[id].notes = data[0].notes;
+                this.dataset[id].websiteurl = data[0].websiteurl;
+                // Build up dimensions
+                this.dataset[id].height = data[0].height;
+                this.dataset[id].width = data[0].width;
+                this.dataset[id].depth = data[0].depth;
+                this.dataset[id].diameter = data[0].diameter;
+                this.dataset[id].surfacecondition = data[0].surfacecondition;
+                // Location data
+                this.dataset[id].address = data[0].address;
+                this.dataset[id].lat = data[0].lat;
+                this.dataset[id].lng = data[0].lng;
+                // Build up the existing artists collection
+                $.each(this.dataset[id].artists, function (key, val) {
+                    var idx = key + 1;
+                    if (data[0]['artist' + idx + '_websiteurl'] && data[0]['artist' + idx + '_websiteurl'].url ) this.website = data[0]['artist' + idx + '_websiteurl'].url;
+                    if (data[0]['artist' + idx + '_startyear'] != 'NULL') this.startyear = data[0]['artist' + idx + '_startyear'];
+                    if (data[0]['artist' + idx + '_endyear'] != 'NULL') this.endyear = data[0]['artist' + idx + '_endyear'];
+                    if (data[0]['artist' + idx + '_notes'] != 'NULL') this.notes = data[0]['artist' + idx + '_notes'];
+                });
                 callback();
             }.bind(this));
         }

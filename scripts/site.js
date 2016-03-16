@@ -63,15 +63,30 @@ $(function () {
 
             // Clear the existing modal
             $('.modal-title').not('.modal-loading').text('');
-            $('#pDescription').text('');
+            $('#divTabContent #details').empty();
+            $('#ulArtists').empty();
+            $('#divTabContent div[id^=artist]').remove();
+            $('#divTabContent #hLocation').text();
 
             // Show the loader
             $('.modal-loading').show();
 
             var id = $(e.relatedTarget).data('id');
             PublicArt.getItem(id, function () {
+                $.each(PublicArt.dataset[id].artists, function (key, val) {
+                    $('#ulArtists').append('<li><a href="#artist' + key + '" data-toggle="tab">' + val.name + '</a></li><li class="divider></li>');
+                    $('#divTabContent').append('<div class="tab-pane fade" id="artist' + key + '"><h5>' + val.name + '</h5><p>' + val.biography + '</p></div>');
+                });
+                $.each(PublicArt.dataset[id].categories, function (key, cat) {
+                    $('#divCategories').append('<span class="label label-success">' + cat + '</span> ');
+                });
                 $('.modal-title').not('.modal-loading').text(PublicArt.dataset[id].title);
-                $('#pDescription').html(PublicArt.dataset[id].description);
+                $('#divTabContent #details').append('<h5>Description</h5><p>' + PublicArt.dataset[id].description + '</p>');
+                $('#divTabContent #details').append('<h5>Unveiling</h5><p>' + PublicArt.dataset[id].unveilingyear + ', ' + PublicArt.dataset[id].unveilingdetails + '</p>');
+                $('#divTabContent #details').append('<h5>Artist statement</h5><p>' + PublicArt.dataset[id].statement + '</p>');
+
+
+                $('#divTabContent #location #pLocation').text(PublicArt.dataset[id].address);
                 $('.modal-loading').hide();
             });
         });
