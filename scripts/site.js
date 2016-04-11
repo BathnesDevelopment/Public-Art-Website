@@ -21,22 +21,16 @@ $(function () {
                 catList = value.categories.join('","');
             }
 
-            // Ugly - build up the item container.
-            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["'
-                + catList.replace(/ /g, '')
-                + '"] data-title="'
-                + value.title
-                + '" data-date="'
-                + value.date
-                + '"><a class="thumbnail" href="#'
-                + value.reference
-                + '" data-id="'
-                + value.reference
-                + '" data-toggle="modal" data-target="#itemDetails">'
+            // Ugly! - build up the item container.
+            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + catList.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '">'
+                + '<div class="thumbnail">'
                 + (value.images.length > 0 ? ('<img class="img-responsive" src="' + PublicArt.imageThumbsLocation + value.images[0].filename + '" alt="' + 'Art catalogue image reference ' + value.reference + '" />') : '')
-                + '<div class="wrapper"><div class="caption capcontent"><p class="lead">'
-                + (value.title.length > 50 ? value.title.substring(0, 50) + '&hellip;' : value.title)
-                + '</p></div></div></a></div>');
+                + '<div class="wrapper"><div class="caption capcontent"><h5>'
+                + (value.title.length > 30 ? value.title.substring(0, 30) + '&hellip;' : value.title)
+                + '</h5></div>'
+                + '<div><a href="#" class="btn btn-link" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">Photos</a>'
+                + '<a href="#" class="btn btn-link" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">More details</a></div>'
+                + '</div></div></div>');
         });
         $('#grid').append('<div class="col-xs-1 shufflesizer"></div>');
 
@@ -84,8 +78,6 @@ $(function () {
                 $('#divTabContent #details').append('<h5>Description</h5><p>' + PublicArt.dataset[id].description + '</p>');
                 $('#divTabContent #details').append('<h5>Unveiling</h5><p>' + PublicArt.dataset[id].unveilingyear + ', ' + PublicArt.dataset[id].unveilingdetails + '</p>');
                 $('#divTabContent #details').append('<h5>Artist statement</h5><p>' + PublicArt.dataset[id].statement + '</p>');
-
-
                 $('#divTabContent #location #pLocation').text(PublicArt.dataset[id].address);
                 $('.modal-loading').hide();
             });
