@@ -4,6 +4,14 @@
 ////////////////////////////////////////////////////////////
 $(function () {
 
+    //////////////////
+    // LIGHTBOX setup
+    //////////////////
+    $(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
+        event.preventDefault();
+        $(this).ekkoLightbox();
+    });
+
     ///////////////////////////////////////////////////////////
     // Load: GetFilteredData
     // On loading the page
@@ -25,11 +33,12 @@ $(function () {
             $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + catList.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '">'
                 + '<div class="thumbnail">'
                 + (value.images.length > 0 ? ('<img class="img-responsive" src="' + PublicArt.imageThumbsLocation + value.images[0].filename + '" alt="' + 'Art catalogue image reference ' + value.reference + '" />') : '')
-                + '<div class="wrapper"><div class="caption capcontent"><h5>'
-                + (value.title.length > 30 ? value.title.substring(0, 30) + '&hellip;' : value.title)
-                + '</h5></div>'
-                + '<div><a href="#" class="btn btn-link" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">Photos</a>'
-                + '<a href="#" class="btn btn-link" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">More details</a></div>'
+                + '<div class="wrapper">'
+                + '<div class="caption capcontent">'
+                + '<h5>' + (value.title.length > 30 ? value.title.substring(0, 30) + '&hellip;' : value.title) + '</h5>'
+                + '</div>'
+                + '<a href="' + PublicArt.imageFullLocation + value.images[0].filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-target="#itemImages">Photos</a>'
+                + '<a href="#" class="btn btn-link" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">More details</a>'
                 + '</div></div></div>');
         });
         $('#grid').append('<div class="col-xs-1 shufflesizer"></div>');
@@ -46,7 +55,7 @@ $(function () {
         // Set a delay on the shuffle
         setTimeout(function () {
             grid.shuffle({ itemSelector: '.griditem', sizer: sizer });
-        }, 500);
+        }, 700);
 
         ///////////////////////////////////////////////////////////
         // Event: Show modal.
