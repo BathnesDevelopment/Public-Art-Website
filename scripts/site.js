@@ -29,6 +29,12 @@ $(function () {
                 catList = value.categories.join('","');
             }
 
+            var photosLinks = '';
+            $.each(value.images, function (key, image) {
+                if (key == 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-target="#itemImages">Images</a>'
+                if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-target="#itemImages" style="display: none;"></a>'
+            });
+
             // Ugly! - build up the item container.
             $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + catList.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '">'
                 + '<div class="thumbnail">'
@@ -37,7 +43,7 @@ $(function () {
                 + '<div class="caption capcontent">'
                 + '<h5>' + (value.title.length > 30 ? value.title.substring(0, 30) + '&hellip;' : value.title) + '</h5>'
                 + '</div>'
-                + '<a href="' + PublicArt.imageFullLocation + value.images[0].filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-target="#itemImages">Photos</a>'
+                + photosLinks
                 + '<a href="#" class="btn btn-link" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">More details</a>'
                 + '</div></div></div>');
         });

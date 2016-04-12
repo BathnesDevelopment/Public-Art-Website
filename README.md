@@ -1,5 +1,7 @@
 # Public Art Website
-Front end for the public art catalogue display on http://www.bathnes.gov.uk/publicart
+Front-end for the public art catalogue display on the Bath and NE Somerset Website.
+
+[Public Art Catalogue | Bath & NE Somerset Council](http://www.bathnes.gov.uk/publicartcatalogue)
 
 ## What is it?
 
@@ -8,36 +10,49 @@ There has been a requirement to refresh the existing public art catalogue listin
 The public art around B&NES is something that is worth highlighting, and this is an excellent collection of images and associated data.
 
 The data has been made available to the Bath: Hacked datastore and this project will use the data directly from there, as well as welcome enhancements and features from the community.
+
+[Bath Hacked Datastore - Public Art Catalogue](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3)
+
 ## Technologies used
 
-TODO: List the high level technologies.
-
-A list of technologies used in the project.  Associated descriptions can also be used to cover any design decisions and why those technologies were used.
+| Name | Description |
+| ---- | ----------- |
+| Web | HTML, JavaScript (with libraries), and CSS |
 
 ## Build
 
-TODO: Implement a build and dependencies tool.
+This is a static website so there is little to build.  In future it would be worth using a package/dependencies manager to gather dependencies but there is no current build process.
 
 ## Deployment
 
-On building the project will be hosted on a B&NES Council web server, and as it is a plain HTML/JavaScript/CSS project should not need complex installation.
+The project will be hosted on a B&NES Council web server, and as it is a plain HTML/JavaScript/CSS project should not need complex installation.  The code is open to community contribution.  The process for this will be:
+
+- The contributor either submits a pull request, or if having direct access to the reposit
+- This will be briefly checked and applied on to a test instance for the public art team to look at
+- All being well the code will be deployed to the live server
+
+Contributors should note that the code is held here under the MIT licence.
 
 ## Usage
 
-1. Browse photos.
-
-2. Item details.  
-
-3. Search/Filter/Order.
+1. Browse gallery
+2. Search/Filter/Order.
+3. Item details. 
+4. Item photos. 
 
 ## Third party licensing
 
-- Shuffle JS
-- Boostrap
-- jQuery
-- Art Catalogue data.  The public art catalogue metadata is hosted on the Bath Hacked datastore and released under an Open Government Licence.
-- Art catalogue images.  The public art catalogue images remain copyright either of the individual photographer or Bath and North East Somerset Council.
+| Name | Description | Link | Licence |
+| ---- | ----------- | ---- | ------- |
+| Shuffle | jQuery library to categorize, sort, and filter a responsive grid of items | [Shuffle](http://vestride.github.io/Shuffle/) | [MIT](https://github.com/Vestride/Shuffle/blob/master/LICENSE) |
+| Lightbox for Bootstrap 3 | A lightbox module for Bootstrap | [Lightbox for Bootstrap](http://ashleydw.github.io/lightbox/) | [MIT](https://github.com/ashleydw/lightbox/blob/master/LICENSE) |
+| Bootstrap | HTML, CSS, and JS framework for developing responsive, mobile first projects on the web | [Bootstrap](http://getbootstrap.com/) | [MIT](https://github.com/twbs/bootstrap/blob/master/LICENSE) |
+| jQuery | Required by Bootstrap and used for general JavaScript shortcuts | [jQuery](https://jquery.com/) | [MIT](https://github.com/twbs/bootstrap/blob/master/LICENSE) |
+| HTML5 Shiv | Enables use of HTML5 sectioning elements in legacy Internet Explorer | [HTML5Shiv GitHub](https://github.com/aFarkas/html5shiv) | [MIT](https://github.com/aFarkas/html5shiv/blob/master/MIT%20and%20GPL2%20licenses.md)
+| Respond | Legacy IE support for media queries | [Respond GitHub](https://github.com/scottjehl/Respond/) | [MIT](https://github.com/scottjehl/Respond/blob/master/LICENSE-MIT) |
 
 ## Licence
 
-Original code licensed with MIT Licence
+Original code licensed with MIT Licence.
+
+Art catalogue data.  The metadata for the art catalogue is released under the [Open Government Licence](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
