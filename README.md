@@ -11,13 +11,13 @@ The public art around B&NES is something that is worth highlighting, and this is
 
 The data has been made available to the Bath: Hacked datastore and this project will use the data directly from there, as well as welcome enhancements and features from the community.
 
-[Bath Hacked Datastore - Public Art Catalogue](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3)
+[Bath Hacked Datastore - Public Art Catalogue dataset](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3)
 
 ## Technologies used
 
 | Name | Description |
 | ---- | ----------- |
-| Web | HTML, JavaScript (with libraries), and CSS |
+| Web | HTML, JavaScript (with various libraries), and CSS |
 
 ## Build
 
@@ -45,6 +45,7 @@ Contributors should note that the code is held here under the MIT licence.
 | Name | Description | Link | Licence |
 | ---- | ----------- | ---- | ------- |
 | Shuffle | jQuery library to categorize, sort, and filter a responsive grid of items | [Shuffle](http://vestride.github.io/Shuffle/) | [MIT](https://github.com/Vestride/Shuffle/blob/master/LICENSE) |
+| Leaflet | Lightweight JavaScript interactive map framework | [Leaflet](http://leafletjs.com/) | [Open Source](https://github.com/Leaflet/Leaflet/blob/master/LICENSE) |
 | Lightbox for Bootstrap 3 | A lightbox module for Bootstrap | [Lightbox for Bootstrap](http://ashleydw.github.io/lightbox/) | [MIT](https://github.com/ashleydw/lightbox/blob/master/LICENSE) |
 | Bootstrap | HTML, CSS, and JS framework for developing responsive, mobile first projects on the web | [Bootstrap](http://getbootstrap.com/) | [MIT](https://github.com/twbs/bootstrap/blob/master/LICENSE) |
 | jQuery | Required by Bootstrap and used for general JavaScript shortcuts | [jQuery](https://jquery.com/) | [MIT](https://github.com/twbs/bootstrap/blob/master/LICENSE) |

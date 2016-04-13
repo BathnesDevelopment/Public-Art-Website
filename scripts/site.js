@@ -74,6 +74,7 @@ $(function () {
             $('.modal-title').not('.modal-loading').text('');
             $('#divTabContent #details').empty();
             $('#ulArtists').empty();
+            $('#divCategories').empty();
             $('#divTabContent div[id^=artist]').remove();
             $('#divTabContent #hLocation').text();
 
