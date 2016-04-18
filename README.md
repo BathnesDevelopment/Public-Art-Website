@@ -11,7 +11,7 @@ The public art around B&NES is something that is worth highlighting, and this is
 
 The data has been made available to the Bath: Hacked datastore and this project will use the data directly from there, as well as welcome enhancements and features from the community.
 
-[Bath Hacked Datastore - Public Art Catalogue dataset](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3)
+[Bath: Hacked Datastore - Public Art Catalogue dataset](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3)
 
 ## Technologies used
 
@@ -25,7 +25,7 @@ This is a static website so there is little to build.  In future it would be wor
 
 ## Deployment
 
-The project will be hosted on a B&NES Council web server, and as it is a plain HTML/JavaScript/CSS project should not need complex installation.  The code is open to community contribution.  The process for this will be:
+The project will be hosted on a B&NES Council web server. As it is a plain HTML/JavaScript/CSS project, it doesn't need any complex deployment/installation process.  The code is open to community contribution.  The process for this will be:
 
 - The contributor either submits a pull request, or if having direct access to the reposit
 - This will be briefly checked and applied on to a test instance for the public art team to look at
@@ -35,10 +35,14 @@ Contributors should note that the code is held here under the MIT licence.
 
 ## Usage
 
-1. Browse gallery
-2. Search/Filter/Order.
-3. Item details. 
-4. Item photos. 
+| Function | Instructions |
+| -------- | ------------ |
+| Browse gallery | The default page is a gallery of the public artworks.  By default the primary image is shown (as selected by the public arts team). Links to launch an image gallery lightbox (Images), or see further details about the artwork (Details) are provided |
+| Search | The search textbox provides a dynamic search.  Any text entered will automatically filter the list shown to only include items containing that text. |
+| Filter by category | Each artwork can have multiple categories assigned to it (e.g. sculpture, ) |
+| Order by | The gallery can currently be ordered by 2 fields.  These are Date (this is a year value given to the artwork), and |
+| Images |  |
+| Details |  |
 
 ## Third party licensing
 
@@ -54,6 +58,9 @@ Contributors should note that the code is held here under the MIT licence.
 
 ## Licence
 
-Original code licensed with MIT Licence.
+Original code licensed with [MIT Licence](Licence.txt).
 
-Art catalogue data.  The metadata for the art catalogue is released under the [Open Government Licence](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/).
+| Additional | Description | Link | Licence |
+| ---------- | ----------- | ---- | ------- |
+| Art catalogue data | The metadata for the art catalogue is the data that this code currently accesses to display the art details. | [Bath: Hacked datastore]() | [Open Government Licence](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) |
+| Art catalogue images | The photographs taken for each artwork. | N/A | See statement for each image within metadata |

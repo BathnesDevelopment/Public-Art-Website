@@ -73,6 +73,7 @@ $(function () {
             // Clear the existing modal
             $('.modal-title').not('.modal-loading').text('');
             $('#divTabContent #details').empty();
+            $('#divTabContent #measurements').empty();
             $('#ulArtists').empty();
             $('#divCategories').empty();
             $('#divTabContent div[id^=artist]').remove();
@@ -91,10 +92,26 @@ $(function () {
                     $('#divCategories').append('<span class="label label-success">' + cat + '</span> ');
                 });
                 $('.modal-title').not('.modal-loading').text(PublicArt.dataset[id].title);
-                $('#divTabContent #details').append('<h5>Description</h5><p>' + PublicArt.dataset[id].description + '</p>');
-                $('#divTabContent #details').append('<h5>Unveiling</h5><p>' + PublicArt.dataset[id].unveilingyear + ', ' + PublicArt.dataset[id].unveilingdetails + '</p>');
-                $('#divTabContent #details').append('<h5>Artist statement</h5><p>' + PublicArt.dataset[id].statement + '</p>');
-                $('#divTabContent #location #pLocation').text(PublicArt.dataset[id].address);
+
+                // The main details tab.
+                if (PublicArt.dataset[id].description) $('#divTabContent #details').append('<h5>Description</h5><p>' + PublicArt.dataset[id].description + '</p>');
+                if (PublicArt.dataset[id].date) $('#divTabContent #details').append('<h5>Date</h5><p>' + PublicArt.dataset[id].date + '</p>');
+                if (PublicArt.dataset[id].history) $('#divTabContent #details').append('<h5>History</h5><p>' + PublicArt.dataset[id].history + '</p>');
+                if (PublicArt.dataset[id].unveilingyear) $('#divTabContent #details').append('<h5>Unveiling</h5><p>' + PublicArt.dataset[id].unveilingyear + ', ' + PublicArt.dataset[id].unveilingdetails + '</p>');
+                
+                if (PublicArt.dataset[id].statement) $('#divTabContent #details').append('<h5>Artist statement</h5><p>' + PublicArt.dataset[id].statement + '</p>');
+
+                // The location tab.
+                if (PublicArt.dataset[id].address) $('#divTabContent #location #pLocation').text(PublicArt.dataset[id].address);
+
+                // The physical details tab.
+                if (PublicArt.dataset[id].inscription) $('#divTabContent #measurements').append('<h5>Inscription</h5><p>' + PublicArt.dataset[id].inscription + '</p>');
+                if (PublicArt.dataset[id].material) $('#divTabContent #measurements').append('<h5>material</h5><p>' + PublicArt.dataset[id].material + '</p>');
+
+                // The measurements 
+                var dimensionsTable = '<table class="table"><thead><tr><th>Height</th><th>Width</th><th>Depth</th><th>Diameter</th></tr></thead><tbody><tr><td>' + PublicArt.dataset[id].height + '</td><td>' + PublicArt.dataset[id].width + '</td><td>' + PublicArt.dataset[id].depth + '</td><td>' + PublicArt.dataset[id].diameter + '</td></tr></tbody></table>';
+                // To do: would quite like to do some graphical representation showing the dimensions
+
                 $('.modal-loading').hide();
             });
         });
