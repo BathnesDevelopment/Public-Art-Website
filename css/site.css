@@ -3,6 +3,22 @@
     margin: 10px;
 }
 
+/*
+    For the category display we're messing around with the default nav pills colour (normally just primary).
+*/
+.nav-pills > li.active.success > a, .nav-pills > li.active.success > a:hover, .nav-pills > li.active.success > a:focus {
+    background-color: #3d8b40 !important;
+}
+.nav-pills > li.active.info > a, .nav-pills > li.active.info > a:hover, .nav-pills > li.active.info > a:focus {
+    background-color: #9c27b0 !important;
+}
+.nav-pills > li.active.warning > a, .nav-pills > li.active.warning > a:hover, .nav-pills > li.active.warning > a:focus {
+    background-color: #cc7a00 !important;
+}
+.nav-pills > li.active.danger > a, .nav-pills > li.active.danger > a:hover, .nav-pills > li.active.danger > a:focus {
+    background-color: red !important;
+}
+
 @media (max-width: 767px) {
     .griditem:nth-child(n+3) {
         margin-top: 15px;
@@ -24,7 +40,6 @@
     .capcontent .label {
         opacity: 1;
     }
-
 
 .thumbnail {
     position: relative;
