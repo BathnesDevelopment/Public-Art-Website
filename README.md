@@ -5,11 +5,11 @@ Front-end for the public art catalogue display on the Bath and NE Somerset Websi
 
 ## What is it?
 
-There has been a requirement to refresh the existing public art catalogue listings on the B&NES website as these pages hadn't been looked at for a little while and were looking a little tired.
+There was a requirement to refresh the previous public art catalogue listings on the B&NES website as these pages hadn't been looked at for a little while and weren't showing off the full value of the collection.
 
-The public art around B&NES is something that is worth highlighting, and this is an excellent collection of images and associated data.
+The public art around B&NES is something that is worth highlighting, and is an excellent collection of images and associated data.  The data in particular has been comprehensively taken for each item and offers a great deal of related history and local knowledge.
 
-The data has been made available to the Bath: Hacked datastore and this project will use the data directly from there, as well as welcome enhancements and features from the community.
+The data has been made available to the Bath: Hacked datastore (the community open data group) and this project will use the data directly from there, as well as welcome enhancements and features from the community.
 
 [Bath: Hacked Datastore - Public Art Catalogue dataset](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3)
 
@@ -21,14 +21,14 @@ The data has been made available to the Bath: Hacked datastore and this project 
 
 ## Build
 
-This is a static website so there is little to build.  In future it would be worth using a package/dependencies manager to gather dependencies but there is no current build process.
+This is a static website so there is little to build.  In future it would be worth using a package/dependencies manager to gather dependencies.
 
 ## Deployment
 
-The project will be hosted on a B&NES Council web server. As it is a plain HTML/JavaScript/CSS project, it doesn't need any complex deployment/installation process.  The code is open to community contribution.  The process for this will be:
+The project will be hosted on a B&NES Council web server. As it is a plain HTML/JavaScript/CSS project, it doesn't need any complex deployment/installation process.  The code is also open to community contribution.  The process for this will be:
 
-- The contributor either submits a pull request, or if having direct access to the reposit
-- This will be briefly checked and applied on to a test instance for the public art team to look at
+- The contributor either submits a pull request, or if having direct access to the repository makes those changes themselves.
+- The B&NES development team will check the code changes, and if OK apply these on to a test instance for the public art team to look at
 - All being well the code will be deployed to the live server
 
 Contributors should note that the code is held here under the MIT licence.
@@ -37,12 +37,12 @@ Contributors should note that the code is held here under the MIT licence.
 
 | Function | Instructions |
 | -------- | ------------ |
-| Browse gallery | The default page is a gallery of the public artworks.  By default the primary image is shown (as selected by the public arts team). Links to launch an image gallery lightbox (Images), or see further details about the artwork (Details) are provided |
-| Search | The search textbox provides a dynamic search.  Any text entered will automatically filter the list shown to only include items containing that text. |
-| Filter by category | Each artwork can have multiple categories assigned to it (e.g. sculpture, ) |
-| Order by | The gallery can currently be ordered by 2 fields.  These are Date (this is a year value given to the artwork), and |
-| Images |  |
-| Details |  |
+| Browse gallery | The default page is a gallery of the public artworks.  By default the primary image is shown (as selected by the public arts team). There are links provided to launch an image gallery popup for each item, or see further details about the item. |
+| Search | The search textbox provides a dynamic search.  Any text entered will automatically filter the gallery to only include items containing that text. |
+| Filter by category | Each artwork can have multiple categories assigned to it (e.g. sculpture, mural).  The filter will show just items that include the particular cateory chosen. |
+| Order by | The gallery can currently be ordered by 2 fields.  These are Date (this is a year value given to the artwork), and Title. |
+| Images | The images link launches an image gallery popup for each item. |
+| Details | The details link launches a popup window to see further details about the item (detailed metadata on the item, physical condition, and artists. |
 
 ## Third party licensing
 
@@ -62,5 +62,5 @@ Original code licensed with [MIT Licence](Licence.txt).
 
 | Additional | Description | Link | Licence |
 | ---------- | ----------- | ---- | ------- |
-| Art catalogue data | The metadata for the art catalogue is the data that this code currently accesses to display the art details. | [Bath: Hacked datastore]() | [Open Government Licence](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) |
-| Art catalogue images | The photographs taken for each artwork. | N/A | See statement for each image within metadata |
+| Art catalogue data | The metadata for the art catalogue is the data that this code currently accesses to display the art details. | [Bath: Hacked datastore](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3) | [Open Government Licence](http://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/) |
+| Art catalogue images | The photographs taken for each collection item. | N/A | See statement for each image within metadata.  If not given then the image remains the copyright of the original photographer. |
