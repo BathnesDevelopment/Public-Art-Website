@@ -32,8 +32,8 @@ $(function () {
     // On loading the page
     ///////////////////////////////////////////////////////////
     PublicArt.getFiltered(function () {
-
         var uniqueCategories = {};
+        var uniqueArtists = {};
         $.each(PublicArt.dataset, function (key, value) {
             var catList = '';
             if (value.categories) {
@@ -44,6 +44,14 @@ $(function () {
                 catList = value.categories.join('","');
             }
 
+            var artistList = '';
+            if (value.artists) {
+                $.each(value.artists, function (idx, artist) {
+                    if (!uniqueArtists[artist.name]) uniqueArtists[artist.name] = artist;
+                    artistList += ',"' + artist.name + '"';
+                });
+            }
+
             var photosLinks = '';
             $.each(value.images, function (key, image) {
                 if (key == 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-target="#itemImages">Images</a>'
@@ -51,7 +59,7 @@ $(function () {
             });
 
             // Ugly! - build up the item container.
-            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + catList.replace(/ /g, '') + '"] data-title="' + value.title + '" data-date="' + value.date + '">'
+            $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + catList.replace(/ /g, '') + '"' + artistList.replace(/ /g, '') + '] data-title="' + value.title + '" data-date="' + value.date + '">'
                 + '<div class="thumbnail">'
                 + (value.images.length > 0 ? ('<img class="img-responsive" src="' + PublicArt.imageThumbsLocation + value.images[0].filename + '" alt="' + 'Art catalogue image reference ' + value.reference + '" />') : '')
                 + '<div class="wrapper">'
@@ -59,7 +67,7 @@ $(function () {
                 + '<h5>' + (value.title.length > 30 ? value.title.substring(0, 30) + '&hellip;' : value.title) + '</h5>'
                 + '</div>'
                 + photosLinks
-                + '<a href="#" class="btn btn-link" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">More details</a>'
+                + '<a href="#" class="btn btn-link" data-ref="' + value.reference + '" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">More details</a>'
                 + '</div></div></div>');
         });
         $('#grid').append('<div class="col-xs-1 shufflesizer"></div>');
@@ -67,6 +75,11 @@ $(function () {
         // Set up the filter from the set of unique categories (and associated counts for labels).
         $.each(uniqueCategories, function (catName, catCount) {
             $('#btnsCategory').append('<li class="' + getBootstrapColour(catName) + '" data-group="' + catName.replace(/ /g, '') + '"><a class="text-' + getBootstrapColour(catName) + '" href="#' + catName.replace(/ /g, '') + '">' + catName + ' <span class="badge">' + catCount + '</span></a></li>');
+        });
+
+        // Set up the filter from the set artists
+        $.each(Object.keys(uniqueArtists).sort(), function (idx, artist) {
+            $('#selArtists').append('<option value="' + artist.replace(/ /g, '') + '">' + artist + '</option>');
         });
 
         // Set up the initial shuffle on the grid bricks.
@@ -102,18 +115,22 @@ $(function () {
             PublicArt.getItem(id, function () {
 
                 // The artists display
-                $.each(PublicArt.dataset[id].artists, function (key, val) {
-                    $('#ulArtists').append('<li><a href="#artist' + key + '" data-toggle="tab">' + val.name + '</a></li><li class="divider></li>');
-                    $('#divTabContent').append('<div class="tab-pane fade" id="artist' + key + '"><h5>' + (val.name ? val.name : '') + (val.startdate ? ' (' + val.startdate + '-' : '') + (val.enddate ? val.enddate + ' )' : '') + '</h5>' + (val.website ? '<p><a target="_blank" href=' + val.website + '>' + val.website + '</a></p>' : '') + '<p>' +(val.biography ? val.biography : '') + '</p></div>');
-                });
+                if (PublicArt.dataset[id].artists) {
+                    $.each(PublicArt.dataset[id].artists, function (key, val) {
+                        $('#ulArtists').append('<li><a href="#artist' + key + '" data-toggle="tab">' + val.name + '</a></li><li class="divider></li>');
+                        $('#divTabContent').append('<div class="tab-pane fade" id="artist' + key + '"><h5>' + (val.name ? val.name : '') + (val.startdate ? ' (' + val.startdate + '-' : '') + (val.enddate ? val.enddate + ' )' : '') + '</h5>' + (val.website ? '<p><a target="_blank" href=' + val.website + '>' + val.website + '</a></p>' : '') + '<p>' + (val.biography ? val.biography : '') + '</p></div>');
+                    });
+                }
 
                 // The title (incl date).
                 $('.modal-title').not('.modal-loading').text((PublicArt.dataset[id].date ? PublicArt.dataset[id].date + ' - ' : '') + PublicArt.dataset[id].title);
 
                 // The categories labels
-                $.each(PublicArt.dataset[id].categories, function (key, cat) {
-                    $('#divCategories').append('<span class="label label-' + getBootstrapColour(cat) + '">' + cat + '</span> ');
-                });
+                if (PublicArt.dataset[id].categories) {
+                    $.each(PublicArt.dataset[id].categories, function (key, cat) {
+                        $('#divCategories').append('<span class="label label-' + getBootstrapColour(cat) + '">' + cat + '</span> ');
+                    });
+                }
 
                 // The main details tab.
                 if (PublicArt.dataset[id].description) $('#divTabContent #details').append('<h5>Description</h5><p>' + PublicArt.dataset[id].description + '</p>');
@@ -177,6 +194,7 @@ $(function () {
             var group = $(this).hasClass('active') ? 'all' : $(this).data('group');
             $('#btnsCategory li').not(this).removeClass('active');
             $(this).toggleClass('active');
+            $('#selArtists').val('');
             grid.shuffle('shuffle', group);
         });
 
@@ -185,8 +203,25 @@ $(function () {
         // 
         ///////////////////////////////////////////////////////////
         $('#selArtists').on('change', function () {
+            $('#btnsCategory li').removeClass('active');
             var artist = this.value;
             grid.shuffle('shuffle', artist);
         });
+
+        ///////////////////////////////////////////////////////////
+        // OnLoad: Show modal.
+        ///////////////////////////////////////////////////////////
+        var getParameterByName = function (name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        };
+        if (window.location.href.indexOf('id') != -1) {
+            $('[data-ref=' + getParameterByName('id') + ']').click();
+        }
     });
 });
