@@ -1,0 +1,27 @@
+{
+  "name": "public-art-website",
+  "homepage": "https://github.com/BathnesDevelopment/Public-Art-Website",
+  "authors": [
+    "Dave <david_rowe@bathnes.gov.uk>"
+  ],
+  "description": "",
+  "main": "index.htm",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "jquery": "^2.2.3",
+    "bootswatch": "^3.3.6+1",
+    "shufflejs": "^4.0.0",
+    "ekko-lightbox": "^4.0.2",
+    "leaflet": "^0.7.7",
+    "html5shiv": "^3.7.3",
+    "respond": "^1.4.2"
+  }
+}

@@ -12,7 +12,7 @@ var PublicArt = {
     imageThumbsLocation: 'http://www.bathnes.gov.uk/sites/default/files/publicart/thumbnails/',
     imageFullLocation: 'http://www.bathnes.gov.uk/sites/default/files/publicart/fullsize/',
     listFilter: '$select=reference,title,date,artist1_name,artist2_name,artist3_name,artist4_name,artist5_name,artist6_name,categories,imagefilenames',
-    detailsFiler: '$select=description,unveilingyear,unveilingdetails,statement,material,inscription,history,notes,websiteurl,height,width,depth,diameter,surfacecondition,address,lat,lng,artist1_biography,artist1_websiteurl,artist1_startyear,artist1_endyear,artist1_notes,artist2_websiteurl,artist2_startyear,artist2_endyear,artist2_notes,artist3_websiteurl,artist3_startyear,artist3_endyear,artist3_notes,artist4_websiteurl,artist4_startyear,artist4_endyear,artist4_notes,artist5_websiteurl,artist5_startyear,artist5_endyear,artist5_notes,artist6_websiteurl,artist6_startyear,artist6_endyear,artist6_notes,imagecaptions',
+    detailsFiler: '$select=description,unveilingyear,unveilingdetails,statement,material,inscription,history,notes,websiteurl,height,width,depth,diameter,surfacecondition,address,lat,lng,artist1_biography,artist1_websiteurl,artist1_startyear,artist1_endyear,artist1_notes,artist2_biography,artist2_websiteurl,artist2_startyear,artist2_endyear,artist2_notes,artist3_biography,artist3_websiteurl,artist3_startyear,artist3_endyear,artist3_notes,artist4_biography,artist4_websiteurl,artist4_startyear,artist4_endyear,artist4_notes,artist5_biography,artist5_websiteurl,artist5_startyear,artist5_endyear,artist5_notes,artist6_biography,artist6_websiteurl,artist6_startyear,artist6_endyear,artist6_notes,imagecaptions',
     dataset: {},
 
     /////////////////////////////////////////////////////
@@ -68,9 +68,9 @@ var PublicArt = {
             var url = this.datastoreUrl + '?reference=' + id + (!this.dataset[id] ? '' : '&' + this.detailsFiler);
             $.get(url, function (data) {
                 if (!this.dataset[id]) this.dataset[id] = data[0];
-                this.dataset[id].artists = this.artistsToArray(this.dataset[id]);
                 // Merge in the rest of the properties.
                 $.extend(this.dataset[id], data[0]);
+                this.dataset[id].artists = this.artistsToArray(this.dataset[id]);
                 callback(this.dataset[id]);
             }.bind(this));
         } else {
@@ -90,6 +90,7 @@ var PublicArt = {
             if (data['artist' + x + '_name'] && (data['artist' + x + '_name'] != 'NULL')) {
                 artists.push({
                     name: data['artist' + x + '_name'],
+                    biography: data['artist' + x + '_biography'],
                     website: (data['artist' + x + '_websiteurl'] ? data['artist' + x + '_websiteurl'].url : ''),
                     startyear: data['artist' + x + '_startyear'],
                     endyear: data['artist' + x + '_endyear'],

@@ -83,13 +83,15 @@ $(function () {
         });
 
         // Set up the initial shuffle on the grid bricks.
-        var grid = $('#grid');
-        var sizer = grid.find('.shufflesizer');
+        var Shuffle = window.shuffle;
+        var element = document.getElementById('grid');
+        var sizer = element.querySelector('.shufflesizer');
 
         // Set a delay on the shuffle
-        setTimeout(function () {
-            grid.shuffle({ itemSelector: '.griditem', sizer: sizer });
-        }, 700);
+        var shuffle = new Shuffle(element, {
+            itemSelector: '.griditem',
+            sizer: sizer
+        });
 
         ///////////////////////////////////////////////////////////
         // Event: Show modal.
@@ -161,10 +163,10 @@ $(function () {
         ///////////////////////////////////////////////////////////
         $('.sort-options').on('change', function () {
             var rev = (this.value == 'date' ? true : false);
-            grid.shuffle('sort', {
+            shuffle.sort({
                 reverse: rev,
                 by: function (el) {
-                    return el.data(this.value);
+                    return el.getAttribute('data-date');
                 }
             });
         });
@@ -177,17 +179,16 @@ $(function () {
         ///////////////////////////////////////////////////////////
         $('.js-shuffle-search').on('keyup change', function () {
             var val = this.value.toLowerCase();
-            grid.shuffle('shuffle', function (el, shuffle) {
+            shuffle.filter(function (el, shuffle) {
                 // Only search elements in the current group
                 if (shuffle.group !== 'all' && $.inArray(shuffle.group, el.data('groups')) === -1) return false;
-                var text = $.trim(el.find('.lead').text()).toLowerCase();
+                var text = el.querySelector('h5').textContent.toLowerCase().trim();
                 return text.indexOf(val) !== -1;
             });
         });
 
         ///////////////////////////////////////////////////////////
         // Event: Filter items
-        // On clicking the 
         ///////////////////////////////////////////////////////////
         $('#btnsCategory li').on('click', function (e) {
             e.preventDefault();
@@ -195,17 +196,16 @@ $(function () {
             $('#btnsCategory li').not(this).removeClass('active');
             $(this).toggleClass('active');
             $('#selArtists').val('');
-            grid.shuffle('shuffle', group);
+            shuffle.filter(group);
         });
 
         ///////////////////////////////////////////////////////////
         // Event: Filter by artist.
-        // 
         ///////////////////////////////////////////////////////////
         $('#selArtists').on('change', function () {
             $('#btnsCategory li').removeClass('active');
             var artist = this.value;
-            grid.shuffle('shuffle', artist);
+            shuffle.filter(artist);
         });
 
         ///////////////////////////////////////////////////////////
