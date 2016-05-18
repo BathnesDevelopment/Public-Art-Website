@@ -11,8 +11,8 @@ var PublicArt = {
     datastoreUrl: 'https://data.bathhacked.org/resource/uau9-ufy3.json',
     imageThumbsLocation: 'http://www.bathnes.gov.uk/sites/default/files/publicart/thumbnails/',
     imageFullLocation: 'http://www.bathnes.gov.uk/sites/default/files/publicart/fullsize/',
-    listFilter: '$select=reference,title,date,artist1_name,artist2_name,artist3_name,artist4_name,artist5_name,artist6_name,categories,imagefilenames',
-    detailsFiler: '$select=description,unveilingyear,unveilingdetails,statement,material,inscription,history,notes,websiteurl,height,width,depth,diameter,surfacecondition,address,lat,lng,artist1_biography,artist1_websiteurl,artist1_startyear,artist1_endyear,artist1_notes,artist2_biography,artist2_websiteurl,artist2_startyear,artist2_endyear,artist2_notes,artist3_biography,artist3_websiteurl,artist3_startyear,artist3_endyear,artist3_notes,artist4_biography,artist4_websiteurl,artist4_startyear,artist4_endyear,artist4_notes,artist5_biography,artist5_websiteurl,artist5_startyear,artist5_endyear,artist5_notes,artist6_biography,artist6_websiteurl,artist6_startyear,artist6_endyear,artist6_notes,imagecaptions',
+    listFilter: '$select=reference,title,date,artist1_name,artist2_name,artist3_name,artist4_name,artist5_name,artist6_name,categories,imagefilenames,imagecaptions',
+    detailsFiler: '$select=description,unveilingyear,unveilingdetails,statement,material,inscription,history,notes,websiteurl,height,width,depth,diameter,surfacecondition,address,lat,lng,artist1_biography,artist1_websiteurl,artist1_startyear,artist1_endyear,artist1_notes,artist2_biography,artist2_websiteurl,artist2_startyear,artist2_endyear,artist2_notes,artist3_biography,artist3_websiteurl,artist3_startyear,artist3_endyear,artist3_notes,artist4_biography,artist4_websiteurl,artist4_startyear,artist4_endyear,artist4_notes,artist5_biography,artist5_websiteurl,artist5_startyear,artist5_endyear,artist5_notes,artist6_biography,artist6_websiteurl,artist6_startyear,artist6_endyear,artist6_notes',
     dataset: {},
 
     /////////////////////////////////////////////////////

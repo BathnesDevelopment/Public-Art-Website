@@ -54,8 +54,8 @@ $(function () {
 
             var photosLinks = '';
             $.each(value.images, function (key, image) {
-                if (key == 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-target="#itemImages">Images</a>'
-                if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-target="#itemImages" style="display: none;"></a>'
+                if (key == 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-footer="' + (image.caption ? image.caption : '') + '" data-target="#itemImages">Images</a>'
+                if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-footer="' + (image.caption ? image.caption : '') + '" data-target="#itemImages" style="display: none;"></a>'
             });
 
             // Ugly! - build up the item container.
@@ -148,7 +148,7 @@ $(function () {
                 if (PublicArt.dataset[id].material) $('#divTabContent #measurements').append('<h5>Material</h5><p>' + PublicArt.dataset[id].material + '</p>');
 
                 // The measurements 
-                var dimensionsTable = '<table class="table"><thead><tr><th>Height</th><th>Width</th><th>Depth</th><th>Diameter</th></tr></thead><tbody><tr><td>' + PublicArt.dataset[id].height + '</td><td>' + (PublicArt.dataset[id].width ? PublicArt.dataset[id].width : '') + '</td><td>' + (PublicArt.dataset[id].depth ? PublicArt.dataset[id].depth : '') + '</td><td>' + (PublicArt.dataset[id].diameter ? PublicArt.dataset[id].diameter : '') + '</td></tr></tbody></table>';
+                var dimensionsTable = '<table class="table"><thead><tr><th>Height (cm)</th><th>Width (cm)</th><th>Depth (cm)</th><th>Diameter (cm)</th></tr></thead><tbody><tr><td>' + PublicArt.dataset[id].height + '</td><td>' + (PublicArt.dataset[id].width ? PublicArt.dataset[id].width : '') + '</td><td>' + (PublicArt.dataset[id].depth ? PublicArt.dataset[id].depth : '') + '</td><td>' + (PublicArt.dataset[id].diameter ? PublicArt.dataset[id].diameter : '') + '</td></tr></tbody></table>';
                 $('#divTabContent #measurements').append('<h5>Measurements</h5>' + dimensionsTable);
                 // To do: would quite like to do some graphical representation showing the dimensions
 
