@@ -54,20 +54,20 @@ $(function () {
 
             var photosLinks = '';
             $.each(value.images, function (key, image) {
-                if (key == 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-footer="' + (image.caption ? image.caption : '') + '" data-target="#itemImages">Images</a>'
-                if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-footer="' + (image.caption ? image.caption : '') + '" data-target="#itemImages" style="display: none;"></a>'
+                if (key == 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link btn-images" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages">View Photos</a>'
+                if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages" style="display: none;">View Photos</a>'
             });
 
             // Ugly! - build up the item container.
             $('#grid').append('<div class="griditem col-lg-3 col-md-4 col-xs-6" data-groups=["' + catList.replace(/ /g, '') + '"' + artistList.replace(/ /g, '') + '] data-title="' + value.title + '" data-date="' + value.date + '">'
                 + '<div class="thumbnail">'
-                + (value.images.length > 0 ? ('<img class="img-responsive" src="' + PublicArt.imageThumbsLocation + value.images[0].filename + '" alt="' + 'Art catalogue image reference ' + value.reference + '" />') : '')
+                + (value.images.length > 0 ? ('<img class="img-responsive" src="' + PublicArt.imageThumbsLocation + value.images[0].filename + '" title="' + 'Art catalogue image for ' + value.title + '" alt="' + 'Art catalogue image for ' + value.title + '" />') : '')
                 + '<div class="wrapper">'
                 + '<div class="caption capcontent">'
-                + '<h5>' + (value.title.length > 30 ? value.title.substring(0, 30) + '&hellip;' : value.title) + '</h5>'
+                + '<h5>' + (value.title.length > 40 ? value.title.substring(0, 40) + '&hellip;' : value.title) + '</h5>'
                 + '</div>'
                 + photosLinks
-                + '<a href="#" class="btn btn-link" data-ref="' + value.reference + '" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">More details</a>'
+                + '<a href="#" class="btn btn-link btn-moredetails" data-ref="' + value.reference + '" data-id="' + value.reference + '" data-toggle="modal" data-target="#itemDetails">More details</a>'
                 + '</div></div></div>');
         });
         $('#grid').append('<div class="col-xs-1 shufflesizer"></div>');
@@ -197,6 +197,12 @@ $(function () {
             $(this).toggleClass('active');
             $('#selArtists').val('');
             shuffle.filter(group);
+
+            if (group != 'all') {
+                $('#hdrGalleryTitle').text('Displaying items of type ' + group);
+            } else {
+                $('#hdrGalleryTitle').text('Displaying all items');
+            }
         });
 
         ///////////////////////////////////////////////////////////
@@ -206,6 +212,20 @@ $(function () {
             $('#btnsCategory li').removeClass('active');
             var artist = this.value;
             shuffle.filter(artist);
+            if (artist != '') {
+                $('#hdrGalleryTitle').text('Displaying items by ' + artist);
+            } else {
+                $('#hdrGalleryTitle').text('Displaying all items');
+            }
+        });
+
+        ///////////////////////////////////////////////////////////
+        // Event: Reset filter
+        ///////////////////////////////////////////////////////////
+        $('#btnReset').on('change', function () {
+            shuffle.filter('');
+            $('#hdrGalleryTitle').text('Displaying all items');
+            return false;
         });
 
         ///////////////////////////////////////////////////////////

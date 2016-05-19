@@ -50,6 +50,21 @@
         min-height: 250px;
     }
 
+.btn-moredetails {
+    font-weight: 500;
+    color: #4CAF50;
+}
+
+.btn-images {
+    font-weight: 500;
+    color: #2196F3;
+}
+
+.btn-reset {
+    font-weight: 500;
+    color: #E51C23;
+}
+
 .glyphicon.spinning {
     animation: spin 1s infinite linear;
     -webkit-animation: spin2 1s infinite linear;
