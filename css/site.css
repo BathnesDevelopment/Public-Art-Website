@@ -44,6 +44,7 @@
 .thumbnail {
     position: relative;
     overflow: auto;
+    min-height: 250px;
 }
     .thumbnail img {
         width: 100%;
@@ -68,6 +69,10 @@
 .glyphicon.spinning {
     animation: spin 1s infinite linear;
     -webkit-animation: spin2 1s infinite linear;
+}
+
+#map {
+    height: 500px;
 }
 
 @keyframes spin {
