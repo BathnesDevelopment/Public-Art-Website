@@ -18,6 +18,25 @@ var getBootstrapColour = function (text) {
     if (index < 26) return 'danger';
 };
 
+var getMarkerStyle = function (category) {
+    var style = ['red',''];
+    if (category == 'Decorative') style =  ['red', 'star' ];
+    if (category == 'Paving') style =  ['darkred', 'road' ];
+    if (category == 'Figurative') style =  ['orange', '' ];
+    if (category == 'Sculpture') style =  ['green', 'object-align-bottom' ];
+    if (category == 'Abstract') style =  ['darkgreen', 'question-sign' ];
+    if (category == 'Church Art') style =  ['blue', 'institution' ];
+    if (category == 'Painting') style =  ['purple', 'picture' ];
+    if (category == 'Other') style =  ['darkpuple', 'flash' ];
+    if (category == 'Mural') style =  ['cadetblue', 'users' ];
+    if (category == 'Photography') style =  ['cadetblue', 'camera' ];
+    if (category == 'Drawing') style =  ['cadetblue', 'pencil' ];
+    if (category == 'Mosaic') style =  ['cadetblue', 'th' ];
+    if (category == 'Street furniture') style =  ['cadetblue', 'road' ];
+    if (category == 'Surrealist') style = ['cadetblue', 'eye-open' ];
+    return style;
+};
+
 var currentRef = null;
 
 $(function () {

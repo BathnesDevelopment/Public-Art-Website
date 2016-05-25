@@ -61,7 +61,7 @@
             </ul>
         </div>
 
-        <form class="form-horizontal">
+        <form class="form-horizontal" onsubmit="return false;">
             <fieldset>
                 <legend>Filter and search gallery</legend>
                 <div class="form-group">
@@ -74,7 +74,7 @@
                 <div class="form-group">
                     <label class="col-lg-2 control-label" for="txtSearch">Category</label>
                     <div class="col-lg-10">
-                        <ul id="btnsCategory" class="nav nav-pills"></ul>
+                        <ul id="btnsCategory" class="nav nav-tabs"></ul>
                         <span class="help-block">Select one category at a time to display items of that type. An item may appear in more than one category.</span>
                     </div>
                 </div>
@@ -109,6 +109,7 @@
     <br />
     <div class="container">
         <h4 id="hdrGalleryTitle">Displaying all items</h4>
+        <p id="pGalleryDescription"></p>
         <hr />
         <div id="grid" class="row shuffle--container shuffle--fluid"></div>
     </div>

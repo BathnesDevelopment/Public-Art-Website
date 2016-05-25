@@ -4,21 +4,6 @@
 ////////////////////////////////////////////////////////////
 $(function () {
 
-    ///////////////////////////////////////////////////////////
-    // Function: getBootstrapColour
-    // Used when choosing one of the bootstrap colours.
-    // Want something that will choose a colour based on text value
-    ///////////////////////////////////////////////////////////
-    var getBootstrapColour = function (text) {
-        var alphabet = 'abcdefghijklmnopqrstuvwxyz';
-        var index = alphabet.indexOf(text.substring(0, 1).toLowerCase());
-        if (index < 5) return 'primary';
-        if (index < 10) return 'success';
-        if (index < 15) return 'info';
-        if (index < 20) return 'warning';
-        if (index < 26) return 'danger';
-    };
-
     //////////////////
     // LIGHTBOX setup
     //////////////////
@@ -48,13 +33,15 @@ $(function () {
     PublicArt.getFiltered(function () {
         var uniqueCategories = {};
         var uniqueArtists = {};
+
+        var markerArray = [];
         $.each(PublicArt.dataset, function (key, value) {
 
             var catList = '';
             if (value.categories) {
                 $.each(value.categories, function (idx, cat) {
-                    if (!uniqueCategories[cat]) uniqueCategories[cat] = 0;
-                    uniqueCategories[cat]++;
+                    if (!uniqueCategories[cat.replace(/ /g, '')]) uniqueCategories[cat.replace(/ /g, '')] = { name: cat, count: 0 };
+                    uniqueCategories[cat.replace(/ /g, '')]['count']++;
                 });
                 catList = value.categories.join('","');
             }
@@ -62,24 +49,33 @@ $(function () {
             var artistList = '';
             if (value.artists) {
                 $.each(value.artists, function (idx, artist) {
-                    if (!uniqueArtists[artist.name]) uniqueArtists[artist.name] = artist;
+                    if (!uniqueArtists[artist.name.replace(/ /g, '')]) uniqueArtists[artist.name.replace(/ /g, '')] = artist;
                     artistList += ',"' + artist.name + '"';
                 });
             }
 
-            var photosLinks = '';
+            var markerPopup = '<h4>' + value.title + '</h4>';
+
+            markerPopup += '<p>';
+            $.each(value.artists, function (i,a) {
+                //markerPopup += a.name;
+            });
             $.each(value.images, function (key, image) {
-                if (key == 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link btn-images" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages">View Photos</a>'
-                if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages" style="display: none;">View Photos</a>'
+                if (key == 0) markerPopup += '<a href="' + PublicArt.imageFullLocation + image.filename + '" id="btnImg1' + value.reference + '" class="btn btn-link btn-images" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages">View Photos</a>'
+                //if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages" style="display: none;">View Photos</a>'
             });
 
+            var markerStyle = ['red','cloud']
+            if (value.categories && value.categories[0]) markerStyle = getMarkerStyle(value.categories[0]);
             var marker = L.AwesomeMarkers.icon({
                 icon: '',
-                markerColor: getBootstrapColour(value.title)
+                markerColor: markerStyle[0]
             });
-            L.marker([value.lat, value.lng], { icon: marker }).bindPopup(photosLinks).addTo(map);
-
+            if (value.lat && value.lng) markerArray.push(L.marker([value.lat, value.lng], { icon: marker }).bindPopup(markerPopup));
         });
+
+        var group = L.featureGroup(markerArray).addTo(map);
+        map.fitBounds(group.getBounds());
 
 
         ///////////////////////////////////////////////////////////
@@ -143,78 +139,6 @@ $(function () {
 
                 $('.modal-loading').hide();
             });
-        });
-
-        ///////////////////////////////////////////////////////////
-        // Event: Sort
-        // On changing the sort dropdown it triggers the shuffle
-        // with the sort option set to the relevant data-*
-        ///////////////////////////////////////////////////////////
-        $('.sort-options').on('change', function () {
-            var rev = (this.value == 'date' ? true : false);
-            shuffle.sort({
-                reverse: rev,
-                by: function (el) {
-                    return el.getAttribute('data-date');
-                }
-            });
-        });
-
-        ///////////////////////////////////////////////////////////
-        // Event: Search
-        // On a keychange in the search box it will
-        // trigger the JS shuffle of the collection and look
-        // for matches in the item title.
-        ///////////////////////////////////////////////////////////
-        $('.js-shuffle-search').on('keyup change', function () {
-            var val = this.value.toLowerCase();
-            shuffle.filter(function (el, shuffle) {
-                // Only search elements in the current group
-                if (shuffle.group !== 'all' && $.inArray(shuffle.group, el.data('groups')) === -1) return false;
-                var text = el.querySelector('h5').textContent.toLowerCase().trim();
-                return text.indexOf(val) !== -1;
-            });
-        });
-
-        ///////////////////////////////////////////////////////////
-        // Event: Filter items
-        ///////////////////////////////////////////////////////////
-        $('#btnsCategory li').on('click', function (e) {
-            e.preventDefault();
-            var group = $(this).hasClass('active') ? 'all' : $(this).data('group');
-            $('#btnsCategory li').not(this).removeClass('active');
-            $(this).toggleClass('active');
-            $('#selArtists').val('');
-            shuffle.filter(group);
-
-            if (group != 'all') {
-                $('#hdrGalleryTitle').text('Displaying items of type ' + group);
-            } else {
-                $('#hdrGalleryTitle').text('Displaying all items');
-            }
-        });
-
-        ///////////////////////////////////////////////////////////
-        // Event: Filter by artist.
-        ///////////////////////////////////////////////////////////
-        $('#selArtists').on('change', function () {
-            $('#btnsCategory li').removeClass('active');
-            var artist = this.value;
-            shuffle.filter(artist);
-            if (artist != '') {
-                $('#hdrGalleryTitle').text('Displaying items by ' + artist);
-            } else {
-                $('#hdrGalleryTitle').text('Displaying all items');
-            }
-        });
-
-        ///////////////////////////////////////////////////////////
-        // Event: Reset filter
-        ///////////////////////////////////////////////////////////
-        $('#btnReset').on('change', function () {
-            shuffle.filter('');
-            $('#hdrGalleryTitle').text('Displaying all items');
-            return false;
         });
 
         ///////////////////////////////////////////////////////////
