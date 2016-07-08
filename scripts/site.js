@@ -19,28 +19,37 @@ var getBootstrapColour = function (text) {
 };
 
 var getMarkerStyle = function (category) {
-    var style = ['red',''];
-    if (category == 'Decorative') style =  ['red', 'star' ];
-    if (category == 'Paving') style =  ['darkred', 'road' ];
-    if (category == 'Figurative') style =  ['orange', '' ];
-    if (category == 'Sculpture') style =  ['green', 'object-align-bottom' ];
-    if (category == 'Abstract') style =  ['darkgreen', 'question-sign' ];
-    if (category == 'Church Art') style =  ['blue', 'institution' ];
-    if (category == 'Painting') style =  ['purple', 'picture' ];
-    if (category == 'Other') style =  ['darkpuple', 'flash' ];
-    if (category == 'Mural') style =  ['cadetblue', 'users' ];
-    if (category == 'Photography') style =  ['cadetblue', 'camera' ];
-    if (category == 'Drawing') style =  ['cadetblue', 'pencil' ];
-    if (category == 'Mosaic') style =  ['cadetblue', 'th' ];
-    if (category == 'Street furniture') style =  ['cadetblue', 'road' ];
-    if (category == 'Surrealist') style = ['cadetblue', 'eye-open' ];
+    var style = ['red', ''];
+    if (category == 'Decorative') style = ['red', 'star'];
+    if (category == 'Paving') style = ['darkred', 'road'];
+    if (category == 'Figurative') style = ['orange', ''];
+    if (category == 'Sculpture') style = ['green', 'object-align-bottom'];
+    if (category == 'Abstract') style = ['darkgreen', 'question-sign'];
+    if (category == 'Church Art') style = ['blue', 'institution'];
+    if (category == 'Painting') style = ['purple', 'picture'];
+    if (category == 'Other') style = ['darkpuple', 'flash'];
+    if (category == 'Mural') style = ['cadetblue', 'users'];
+    if (category == 'Photography') style = ['cadetblue', 'camera'];
+    if (category == 'Drawing') style = ['cadetblue', 'pencil'];
+    if (category == 'Mosaic') style = ['cadetblue', 'th'];
+    if (category == 'Street furniture') style = ['cadetblue', 'road'];
+    if (category == 'Surrealist') style = ['cadetblue', 'eye-open'];
     return style;
 };
 
 var currentRef = null;
 
+var imagesMoreDetails = function (ref) {
+    currentRef = ref;
+    // Hide the images modal.
+    $('.modal').modal('hide');
+    // And show the relevant images modal.
+    $('#itemDetails').modal();
+    return false;
+};
+
 $(function () {
-    
+
     //////////////////
     // LIGHTBOX setup
     //////////////////
@@ -49,11 +58,11 @@ $(function () {
         $(this).ekkoLightbox();
     });
 
-    $('#btnModalImages').on('click', function () {
+    $('#btnModalImages').on('click', function (ref) {
         // Hide the details modal.
         $('#itemDetails').modal('hide');
-        // And show the relevant images modal.
-        $('#btnImg1' + currentRef).ekkoLightbox();
+        // And show the relevant detail.
+        $('#btnImg1' + ref).ekkoLightbox();
 
     });
 
@@ -77,44 +86,46 @@ $(function () {
         $('.modal-loading').show();
         $('a[href="#details"]').tab('show');
 
-        var id = $(e.relatedTarget).data('id');
-        currentRef = id;
+        if (e && e.relatedTarget) {
+            var id = $(e.relatedTarget).data('id');
+            currentRef = id;
+        }
 
-        PublicArt.getItem(id, function () {
+        PublicArt.getItem(currentRef, function () {
 
             // The artists display
-            if (PublicArt.dataset[id].artists) {
-                $.each(PublicArt.dataset[id].artists, function (key, val) {
+            if (PublicArt.dataset[currentRef].artists) {
+                $.each(PublicArt.dataset[currentRef].artists, function (key, val) {
                     $('#ulArtists').append('<li><a href="#artist' + key + '" data-toggle="tab">' + val.name + '</a></li><li class="divider></li>');
                     $('#divTabContent').append('<div class="tab-pane fade" id="artist' + key + '"><h5>' + (val.name ? val.name : '') + (val.startdate ? ' (' + val.startdate + '-' : '') + (val.enddate ? val.enddate + ' )' : '') + '</h5>' + (val.website ? '<p><a target="_blank" href=' + val.website + '>' + val.website + '</a></p>' : '') + '<p>' + (val.biography ? val.biography : '') + '</p></div>');
                 });
             }
 
             // The title (incl date).
-            $('.modal-title').not('.modal-loading').text((PublicArt.dataset[id].date ? PublicArt.dataset[id].date + ' - ' : '') + PublicArt.dataset[id].title);
+            $('.modal-title').not('.modal-loading').text((PublicArt.dataset[currentRef].date ? PublicArt.dataset[currentRef].date + ' - ' : '') + PublicArt.dataset[currentRef].title);
 
             // The categories labels
-            if (PublicArt.dataset[id].categories) {
-                $.each(PublicArt.dataset[id].categories, function (key, cat) {
+            if (PublicArt.dataset[currentRef].categories) {
+                $.each(PublicArt.dataset[currentRef].categories, function (key, cat) {
                     $('#divCategories').append('<span class="label label-' + getBootstrapColour(cat) + '">' + cat + '</span> ');
                 });
             }
 
             // The main details tab.
-            if (PublicArt.dataset[id].description) $('#divTabContent #details').append('<h5>Description</h5><p>' + PublicArt.dataset[id].description + '</p>');
-            if (PublicArt.dataset[id].history) $('#divTabContent #details').append('<h5>History</h5><p>' + PublicArt.dataset[id].history + '</p>');
-            if (PublicArt.dataset[id].unveilingyear) $('#divTabContent #details').append('<h5>Unveiling</h5><p>' + PublicArt.dataset[id].unveilingyear + (PublicArt.dataset[id].unveilingdetails ? ', ' + PublicArt.dataset[id].unveilingdetails : '') + '</p>');
-            if (PublicArt.dataset[id].statement) $('#divTabContent #details').append('<h5>Artist statement</h5><p>' + PublicArt.dataset[id].statement + '</p>');
+            if (PublicArt.dataset[currentRef].description) $('#divTabContent #details').append('<h5>Description</h5><p>' + PublicArt.dataset[currentRef].description + '</p>');
+            if (PublicArt.dataset[currentRef].history) $('#divTabContent #details').append('<h5>History</h5><p>' + PublicArt.dataset[currentRef].history + '</p>');
+            if (PublicArt.dataset[currentRef].unveilingyear) $('#divTabContent #details').append('<h5>Unveiling</h5><p>' + PublicArt.dataset[currentRef].unveilingyear + (PublicArt.dataset[currentRef].unveilingdetails ? ', ' + PublicArt.dataset[currentRef].unveilingdetails : '') + '</p>');
+            if (PublicArt.dataset[currentRef].statement) $('#divTabContent #details').append('<h5>Artist statement</h5><p>' + PublicArt.dataset[currentRef].statement + '</p>');
 
             // The location tab.
-            if (PublicArt.dataset[id].address) $('#divTabContent #location #pLocation').text(PublicArt.dataset[id].address);
+            if (PublicArt.dataset[currentRef].address) $('#divTabContent #location #pLocation').text(PublicArt.dataset[currentRef].address);
 
             // The physical details tab.
-            if (PublicArt.dataset[id].inscription) $('#divTabContent #measurements').append('<h5>Inscription</h5><p>' + PublicArt.dataset[id].inscription + '</p>');
-            if (PublicArt.dataset[id].material) $('#divTabContent #measurements').append('<h5>Material</h5><p>' + PublicArt.dataset[id].material + '</p>');
+            if (PublicArt.dataset[currentRef].inscription) $('#divTabContent #measurements').append('<h5>Inscription</h5><p>' + PublicArt.dataset[currentRef].inscription + '</p>');
+            if (PublicArt.dataset[currentRef].material) $('#divTabContent #measurements').append('<h5>Material</h5><p>' + PublicArt.dataset[currentRef].material + '</p>');
 
             // The measurements 
-            var dimensionsTable = '<table class="table"><thead><tr><th>Height (cm)</th><th>Width (cm)</th><th>Depth (cm)</th><th>Diameter (cm)</th></tr></thead><tbody><tr><td>' + PublicArt.dataset[id].height + '</td><td>' + (PublicArt.dataset[id].width ? PublicArt.dataset[id].width : '') + '</td><td>' + (PublicArt.dataset[id].depth ? PublicArt.dataset[id].depth : '') + '</td><td>' + (PublicArt.dataset[id].diameter ? PublicArt.dataset[id].diameter : '') + '</td></tr></tbody></table>';
+            var dimensionsTable = '<table class="table"><thead><tr><th>Height (cm)</th><th>Width (cm)</th><th>Depth (cm)</th><th>Diameter (cm)</th></tr></thead><tbody><tr><td>' + PublicArt.dataset[currentRef].height + '</td><td>' + (PublicArt.dataset[currentRef].width ? PublicArt.dataset[currentRef].width : '') + '</td><td>' + (PublicArt.dataset[currentRef].depth ? PublicArt.dataset[currentRef].depth : '') + '</td><td>' + (PublicArt.dataset[currentRef].diameter ? PublicArt.dataset[currentRef].diameter : '') + '</td></tr></tbody></table>';
             $('#divTabContent #measurements').append('<h5>Measurements</h5>' + dimensionsTable);
             // To do: would quite like to do some graphical representation showing the dimensions
 

@@ -21,7 +21,13 @@ The data has been made available to the Bath: Hacked datastore (the community op
 
 ## Build
 
-This is a static website so there is little to build.  In future it would be worth using a package/dependencies manager to gather dependencies.
+The project is a static website but uses bower to manage dependencies.
+
+To build, ensure you have bower installed (https://bower.io) and then run from the main directory:
+
+bower install
+
+This will create the bower_components directory.
 
 ## Deployment
 
