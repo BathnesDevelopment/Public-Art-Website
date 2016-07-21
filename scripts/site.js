@@ -40,6 +40,7 @@ var getMarkerStyle = function (category) {
 var currentRef = null;
 
 var imagesMoreDetails = function (ref) {
+    event.preventDefault ? event.preventDefault() : (event.returnValue = false);
     currentRef = ref;
     // Hide the images modal.
     $('.modal').modal('hide');
@@ -58,11 +59,11 @@ $(function () {
         $(this).ekkoLightbox();
     });
 
-    $('#btnModalImages').on('click', function (ref) {
+    $('#btnModalImages').on('click', function () {
         // Hide the details modal.
         $('#itemDetails').modal('hide');
         // And show the relevant detail.
-        $('#btnImg1' + ref).ekkoLightbox();
+        $('#btnImg1' + currentRef).ekkoLightbox();
 
     });
 

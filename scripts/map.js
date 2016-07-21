@@ -5,14 +5,6 @@
 $(function () {
 
     //////////////////
-    // LIGHTBOX setup
-    //////////////////
-    $(document).delegate('*[data-toggle="lightbox"]', 'click', function (event) {
-        event.preventDefault();
-        $(this).ekkoLightbox();
-    });
-
-    //////////////////
     // MAP setup
     // Uses CartoDB positron
     //////////////////
@@ -54,17 +46,20 @@ $(function () {
                 });
             }
 
-            var markerPopup = '<h4>' + value.title + '</h4>';
+            var photosLinks = '';
+            $.each(value.images, function (key, image) {
+                if (key == 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" id="btnImg1' + value.reference + '" class="btn btn-link btn-images" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages">View Photos</a>'
+                if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages" style="display: none;">View Photos</a>'
+            });
+            var markerPopup = '<p class="lead">' + value.title + '</p>';
 
             markerPopup += '<p>';
-            $.each(value.artists, function (i,a) {
-                //markerPopup += a.name;
-            });
-            $.each(value.images, function (key, image) {
-                if (key == 0) markerPopup += '<a href="' + PublicArt.imageFullLocation + image.filename + '" id="btnImg1' + value.reference + '" class="btn btn-link btn-images" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages">View Photos</a>'
-                //if (key != 0) photosLinks += '<a href="' + PublicArt.imageFullLocation + image.filename + '" class="btn btn-link" data-id="' + value.reference + '" data-gallery="' + value.reference + '" data-toggle="lightbox" data-title="' + value.title + '" data-footer="Image ' + (key + 1) + ' of ' + value.images.length + '<br>' + (image.caption ? image.caption : '') + '" data-target="#itemImages" style="display: none;">View Photos</a>'
-            });
-
+            markerPopup += $.map(value.artists, function (i, a) {
+                return i.name
+            }).join(', ');
+            markerPopup += '</p>';
+            markerPopup += '<p>' + photosLinks + '</p>';
+            
             var markerStyle = ['red','cloud']
             if (value.categories && value.categories[0]) markerStyle = getMarkerStyle(value.categories[0]);
             var marker = L.AwesomeMarkers.icon({
@@ -75,8 +70,7 @@ $(function () {
         });
 
         var group = L.featureGroup(markerArray).addTo(map);
-        map.fitBounds(group.getBounds());
-
+        // map.fitBounds(group.getBounds());
 
         ///////////////////////////////////////////////////////////
         // Event: Show modal.
