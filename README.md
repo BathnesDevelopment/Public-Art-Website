@@ -1,17 +1,18 @@
 # Public Art Website
 Front-end for the public art catalogue display on the Bath and NE Somerset Website.
 
+Welcome to the catalogue of Public Art in the Bath and North East Somerset area. These cover every art form from sculpture to mosaic, painting to photography, church art to murals made after 1945. Having enjoyed the information and photos presented here we hope you will be inspired to see the pieces in-situ. For more information about his project please contact the Arts Development team at arts@bathnes.gov.uk
+
 [Public Art Catalogue | Bath & NE Somerset Council](http://www.bathnes.gov.uk/publicartcatalogue)
 
 ## What is it?
 
-There was a requirement to refresh the previous public art catalogue listings on the B&NES website as these pages hadn't been looked at for a little while and weren't showing off the full value of the collection.
+There was a requirement to refresh the previous public art catalogue listings on the B&NES website, as these pages hadn't been looked at for a little while and weren't showing off the full value of the collection.
 
 The public art around B&NES is something that is worth highlighting, and is an excellent collection of images and associated data.  The data in particular has been comprehensively taken for each item and offers a great deal of related history and local knowledge.
 
-The data has been made available to the Bath: Hacked datastore (the community open data group) and this project will use the data directly from there, as well as welcome enhancements and features from the community.
+The data has been made available to the [Bath: Hacked datastore](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3) (the community open data group) and this project will use the data directly from there, as well as welcome enhancements and features from the community.
 
-[Bath: Hacked Datastore - Public Art Catalogue dataset](https://data.bathhacked.org/Heritage/Public-Art-Catalogue/uau9-ufy3)
 
 ## Technologies used
 
@@ -21,13 +22,15 @@ The data has been made available to the Bath: Hacked datastore (the community op
 
 ## Build
 
-The project is a static website but uses bower to manage dependencies.
+The project is a static website, using bower to manage dependencies.
 
 To build, ensure you have bower installed (https://bower.io) and then run from the main directory:
 
+```
 bower install
+```
 
-This will create the bower_components directory.
+This will create the **bower_components** directory.
 
 ## Deployment
 
